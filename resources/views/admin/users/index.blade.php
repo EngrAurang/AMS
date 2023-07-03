@@ -28,17 +28,13 @@
                         {{ trans('cruds.user.fields.email') }}
                     </th>
                     <th>
-                        {{ trans('cruds.user.fields.two_factor') }}
+                        {{ trans('cruds.user.fields.department') }}
                     </th>
                     <th>
                         {{ trans('cruds.user.fields.user') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.user.fields.department') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.user.fields.roles') }}
-                    </th>
+
+
                     <th>
                         {{ trans('cruds.user.fields.total_leaves') }}
                     </th>
@@ -103,10 +99,8 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'name', name: 'name' },
 { data: 'email', name: 'email' },
-{ data: 'two_factor', name: 'two_factor' },
 { data: 'user_name', name: 'user.name' },
 { data: 'department_name', name: 'department.name' },
-{ data: 'roles', name: 'roles.title' },
 { data: 'total_leaves', name: 'total_leaves' },
 { data: 'leaves_taken', name: 'leaves_taken' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
@@ -120,7 +114,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

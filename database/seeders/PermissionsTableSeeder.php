@@ -96,23 +96,23 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 22,
-                'title' => 'employee_leaf_create',
+                'title' => 'employee_leave_create',
             ],
             [
                 'id'    => 23,
-                'title' => 'employee_leaf_edit',
+                'title' => 'employee_leave_edit',
             ],
             [
                 'id'    => 24,
-                'title' => 'employee_leaf_show',
+                'title' => 'employee_leave_show',
             ],
             [
                 'id'    => 25,
-                'title' => 'employee_leaf_delete',
+                'title' => 'employee_leave_delete',
             ],
             [
                 'id'    => 26,
-                'title' => 'employee_leaf_access',
+                'title' => 'employee_leave_access',
             ],
             [
                 'id'    => 27,

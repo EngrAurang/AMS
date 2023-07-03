@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-@can('employee_leaf_create')
+@can('employee_leave_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.employee-leaves.create') }}">
@@ -108,7 +108,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

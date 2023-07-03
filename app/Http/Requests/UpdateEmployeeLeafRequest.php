@@ -11,7 +11,7 @@ class UpdateEmployeeLeafRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('employee_leaf_edit');
+        return Gate::allows('employee_leave_edit');
     }
 
     public function rules()

@@ -17,7 +17,7 @@ class EmployeeLeavesController extends Controller
 {
     public function index(Request $request)
     {
-        abort_if(Gate::denies('employee_leaf_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('employee_leave_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
             $query = EmployeeLeaf::with(['employee'])->select(sprintf('%s.*', (new EmployeeLeaf)->table));
@@ -27,9 +27,9 @@ class EmployeeLeavesController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'employee_leaf_show';
-                $editGate      = 'employee_leaf_edit';
-                $deleteGate    = 'employee_leaf_delete';
+                $viewGate      = 'employee_leave_show';
+                $editGate      = 'employee_leave_edit';
+                $deleteGate    = 'employee_leave_delete';
                 $crudRoutePart = 'employee-leaves';
 
                 return view('partials.datatablesActions', compact(
@@ -62,7 +62,7 @@ class EmployeeLeavesController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('employee_leaf_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('employee_leave_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -78,7 +78,7 @@ class EmployeeLeavesController extends Controller
 
     public function edit(EmployeeLeaf $employeeLeaf)
     {
-        abort_if(Gate::denies('employee_leaf_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('employee_leave_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -96,7 +96,7 @@ class EmployeeLeavesController extends Controller
 
     public function show(EmployeeLeaf $employeeLeaf)
     {
-        abort_if(Gate::denies('employee_leaf_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('employee_leave_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $employeeLeaf->load('employee');
 
@@ -105,7 +105,7 @@ class EmployeeLeavesController extends Controller
 
     public function destroy(EmployeeLeaf $employeeLeaf)
     {
-        abort_if(Gate::denies('employee_leaf_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('employee_leave_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $employeeLeaf->delete();
 

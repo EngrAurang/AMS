@@ -11,7 +11,7 @@ class StoreEmployeeLeafRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('employee_leaf_create');
+        return Gate::allows('employee_leave_create');
     }
 
     public function rules()

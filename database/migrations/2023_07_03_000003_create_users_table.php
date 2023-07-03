@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string('two_factor_code')->nullable();
             $table->date('joining_date')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->string('remember_token')->nullable();
             $table->float('total_leaves', 15, 2)->nullable();
             $table->float('leaves_taken', 15, 2)->nullable();

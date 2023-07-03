@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'site_title' => 'Attendance Management System',
+    'site_title' => 'LMS',
 
 ];

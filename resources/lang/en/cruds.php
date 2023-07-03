@@ -40,8 +40,8 @@ return [
         ],
     ],
     'user' => [
-        'title'          => 'Users',
-        'title_singular' => 'User',
+        'title'          => 'Employees',
+        'title_singular' => 'Employee',
         'fields'         => [
             'id'                           => 'ID',
             'id_helper'                    => ' ',
@@ -68,7 +68,9 @@ return [
             'department'                   => 'Department',
             'department_helper'            => ' ',
             'joining_date'                 => 'Joining Date',
+            'date_of_birth'                 => 'Date Of Birth',
             'joining_date_helper'          => ' ',
+            'date_of_birth_helper'          => ' ',
             'total_leaves'                 => 'Total Leaves',
             'total_leaves_helper'          => ' ',
             'leaves_taken'                 => 'Leaves Taken',
@@ -101,7 +103,7 @@ return [
     ],
     'employeeLeaf' => [
         'title'          => 'Employee Leaves',
-        'title_singular' => 'Employee Leaf',
+        'title_singular' => 'Employee Leave',
         'fields'         => [
             'id'                           => 'ID',
             'id_helper'                    => ' ',

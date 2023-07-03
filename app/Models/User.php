@@ -26,6 +26,7 @@ class User extends Authenticatable
     protected $dates = [
         'email_verified_at',
         'joining_date',
+        'date_of_birth',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -42,6 +43,7 @@ class User extends Authenticatable
         'user_id',
         'department_id',
         'joining_date',
+        'date_of_birth',
         'remember_token',
         'total_leaves',
         'leaves_taken',
@@ -121,7 +123,16 @@ class User extends Authenticatable
 
     public function setJoiningDateAttribute($value)
     {
-        $this->attributes['joining_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+        $this->attributes['date_of_birth'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+    }
+    public function getDateOfBirthAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
+    }
+
+    public function setDateOfBirthAttribute($value)
+    {
+        $this->attributes['date_of_birth'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
     public function getTwoFactorExpiresAtAttribute($value)

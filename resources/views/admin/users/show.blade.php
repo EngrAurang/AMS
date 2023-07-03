@@ -75,6 +75,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.user.fields.date_of_birth') }}
+                        </th>
+                        <td>
+                            {{ $user->date_of_birth }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.user.fields.total_leaves') }}
                         </th>
                         <td>

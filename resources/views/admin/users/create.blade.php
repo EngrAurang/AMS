@@ -40,20 +40,6 @@
                 <span class="help-block">{{ trans('cruds.user.fields.password_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="user_id">{{ trans('cruds.user.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id">
-                    @foreach($users as $id => $entry)
-                        <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('user') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.user.fields.user_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="department_id">{{ trans('cruds.user.fields.department') }}</label>
                 <select class="form-control select2 {{ $errors->has('department') ? 'is-invalid' : '' }}" name="department_id" id="department_id" required>
                     @foreach($departments as $id => $entry)
@@ -68,12 +54,27 @@
                 <span class="help-block">{{ trans('cruds.user.fields.department_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="user_id">{{ trans('cruds.user.fields.user') }}</label>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id">
+                    @foreach($users as $id => $entry)
+                        <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('user'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('user') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.user_helper') }}</span>
+            </div>
+
+            <div class="form-group">
                 <label class="required" for="roles">{{ trans('cruds.user.fields.roles') }}</label>
-                <div style="padding-bottom: 4px">
+                {{-- <div style="padding-bottom: 4px">
                     <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
                     <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                </div>
-                <select class="form-control select2 {{ $errors->has('roles') ? 'is-invalid' : '' }}" name="roles[]" id="roles" multiple required>
+                </div> --}}
+                <select class="form-control select2 {{ $errors->has('roles') ? 'is-invalid' : '' }}" name="roles[]" id="roles" required>
                     @foreach($roles as $id => $role)
                         <option value="{{ $id }}" {{ in_array($id, old('roles', [])) ? 'selected' : '' }}>{{ $role }}</option>
                     @endforeach
@@ -94,6 +95,16 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.user.fields.joining_date_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="date_of_birth">{{ trans('cruds.user.fields.date_of_birth') }}</label>
+                <input class="form-control date {{ $errors->has('date_of_birth') ? 'is-invalid' : '' }}" type="text" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth') }}" required>
+                @if($errors->has('date_of_birth'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('date_of_birth') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.date_of_birth_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="total_leaves">{{ trans('cruds.user.fields.total_leaves') }}</label>

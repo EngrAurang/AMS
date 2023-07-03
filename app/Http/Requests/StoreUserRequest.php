@@ -37,9 +37,12 @@ class StoreUserRequest extends FormRequest
             ],
             'roles' => [
                 'required',
-                'array',
             ],
             'joining_date' => [
+                'required',
+                'date_format:' . config('panel.date_format'),
+            ],
+            'date_of_birth' => [
                 'required',
                 'date_format:' . config('panel.date_format'),
             ],

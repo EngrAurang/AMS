@@ -55,7 +55,7 @@
                 </a>
             </li>
         @endcan
-        @can('employee_leaf_access')
+        @can('employee_leave_access')
             <li class="c-sidebar-nav-item">
                 <a href="{{ route("admin.employee-leaves.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/employee-leaves") || request()->is("admin/employee-leaves/*") ? "c-active" : "" }}">
                     <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
@@ -82,9 +82,9 @@
                 @can('profile_password_edit')
                     <li class="c-sidebar-nav-item">
                         <a class="c-sidebar-nav-link {{ request()->is('profile/password') || request()->is('profile/password/*') ? 'c-active' : '' }}" href="{{ route('profile.password.edit') }}">
-                            <i class="fa-fw fas fa-key c-sidebar-nav-icon">
+                            <i class="fa-fw fas fa-cog c-sidebar-nav-icon">
                             </i>
-                            {{ trans('global.change_password') }}
+                            {{ trans('global.settings') }}
                         </a>
                     </li>
                 @endcan

@@ -138,6 +138,7 @@ return [
     'my_profile'                           => 'My profile',
     'my_team'                              => 'My team',
     'change_password'                      => 'Change password',
+    'settings'                             => 'Settings',
     'delete_account'                       => 'Delete account',
     'delete_account_warning'               => 'Enter your email address to confirm you want to delete account.\nThis action is not reversible.',
     'two_factor'                           => [
