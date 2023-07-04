@@ -20,7 +20,7 @@
                             {{ trans('cruds.employeeLeaf.fields.id') }}
                         </th>
                         <td>
-                            {{ $employeeLeaf->id }}
+                            {{ $employeedata->id }}
                         </td>
                     </tr>
                     <tr>
@@ -28,7 +28,7 @@
                             {{ trans('cruds.employeeLeaf.fields.employee') }}
                         </th>
                         <td>
-                            {{ $employeeLeaf->employee->name ?? '' }}
+                            {{ $employeedata->employee->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -36,7 +36,7 @@
                             {{ trans('cruds.employeeLeaf.fields.start_date') }}
                         </th>
                         <td>
-                            {{ $employeeLeaf->start_date }}
+                            {{ $employeedata->start_date }}
                         </td>
                     </tr>
                     <tr>
@@ -44,7 +44,7 @@
                             {{ trans('cruds.employeeLeaf.fields.end_date') }}
                         </th>
                         <td>
-                            {{ $employeeLeaf->end_date }}
+                            {{ $employeedata->end_date }}
                         </td>
                     </tr>
                     <tr>
@@ -52,7 +52,7 @@
                             {{ trans('cruds.employeeLeaf.fields.line_manager_approval') }}
                         </th>
                         <td>
-                            {{ App\Models\EmployeeLeaf::LINE_MANAGER_APPROVAL_RADIO[$employeeLeaf->line_manager_approval] ?? '' }}
+                            {{ App\Models\EmployeeLeaf::LINE_MANAGER_APPROVAL_RADIO[$employeedata->line_manager_approval] ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -60,7 +60,7 @@
                             {{ trans('cruds.employeeLeaf.fields.hr_approval') }}
                         </th>
                         <td>
-                            {{ App\Models\EmployeeLeaf::HR_APPROVAL_RADIO[$employeeLeaf->hr_approval] ?? '' }}
+                            {{ App\Models\EmployeeLeaf::HR_APPROVAL_RADIO[$employeedata->hr_approval] ?? '' }}
                         </td>
                     </tr>
                 </tbody>

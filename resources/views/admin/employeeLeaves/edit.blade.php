@@ -7,14 +7,14 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.employee-leaves.update", [$employeeLeaf->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.employee-leaves.update", [$employeedata->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
                 <label class="required" for="employee_id">{{ trans('cruds.employeeLeaf.fields.employee') }}</label>
                 <select class="form-control select2 {{ $errors->has('employee') ? 'is-invalid' : '' }}" name="employee_id" id="employee_id" required>
                     @foreach($employees as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('employee_id') ? old('employee_id') : $employeeLeaf->employee->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                        <option value="{{ $id }}" {{ (old('employee_id') ? old('employee_id') : $employeedata->employee->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('employee'))
@@ -24,9 +24,10 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.employeeLeaf.fields.employee_helper') }}</span>
             </div>
+            <input type="hidden" value="{{ $employeedata->id }}" name="id" >
             <div class="form-group">
                 <label class="required" for="start_date">{{ trans('cruds.employeeLeaf.fields.start_date') }}</label>
-                <input class="form-control date {{ $errors->has('start_date') ? 'is-invalid' : '' }}" type="text" name="start_date" id="start_date" value="{{ old('start_date', $employeeLeaf->start_date) }}" required>
+                <input class="form-control date {{ $errors->has('start_date') ? 'is-invalid' : '' }}" type="text" name="start_date" id="start_date" value="{{ old('start_date', $employeedata->start_date) }}" required>
                 @if($errors->has('start_date'))
                     <div class="invalid-feedback">
                         {{ $errors->first('start_date') }}
@@ -36,7 +37,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="end_date">{{ trans('cruds.employeeLeaf.fields.end_date') }}</label>
-                <input class="form-control date {{ $errors->has('end_date') ? 'is-invalid' : '' }}" type="text" name="end_date" id="end_date" value="{{ old('end_date', $employeeLeaf->end_date) }}" required>
+                <input class="form-control date {{ $errors->has('end_date') ? 'is-invalid' : '' }}" type="text" name="end_date" id="end_date" value="{{ old('end_date', $employeedata->end_date) }}" required>
                 @if($errors->has('end_date'))
                     <div class="invalid-feedback">
                         {{ $errors->first('end_date') }}
@@ -48,7 +49,7 @@
                 <label>{{ trans('cruds.employeeLeaf.fields.line_manager_approval') }}</label>
                 @foreach(App\Models\EmployeeLeaf::LINE_MANAGER_APPROVAL_RADIO as $key => $label)
                     <div class="form-check {{ $errors->has('line_manager_approval') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="radio" id="line_manager_approval_{{ $key }}" name="line_manager_approval" value="{{ $key }}" {{ old('line_manager_approval', $employeeLeaf->line_manager_approval) === (string) $key ? 'checked' : '' }}>
+                        <input class="form-check-input" type="radio" id="line_manager_approval_{{ $key }}" name="line_manager_approval" value="{{ $key }}" {{ old('line_manager_approval', $employeedata->line_manager_approval) === (string) $key ? 'checked' : '' }}>
                         <label class="form-check-label" for="line_manager_approval_{{ $key }}">{{ $label }}</label>
                     </div>
                 @endforeach
@@ -63,7 +64,7 @@
                 <label>{{ trans('cruds.employeeLeaf.fields.hr_approval') }}</label>
                 @foreach(App\Models\EmployeeLeaf::HR_APPROVAL_RADIO as $key => $label)
                     <div class="form-check {{ $errors->has('hr_approval') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="radio" id="hr_approval_{{ $key }}" name="hr_approval" value="{{ $key }}" {{ old('hr_approval', $employeeLeaf->hr_approval) === (string) $key ? 'checked' : '' }}>
+                        <input class="form-check-input" type="radio" id="hr_approval_{{ $key }}" name="hr_approval" value="{{ $key }}" {{ old('hr_approval', $employeedata->hr_approval) === (string) $key ? 'checked' : '' }}>
                         <label class="form-check-label" for="hr_approval_{{ $key }}">{{ $label }}</label>
                     </div>
                 @endforeach

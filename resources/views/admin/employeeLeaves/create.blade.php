@@ -43,7 +43,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.employeeLeaf.fields.end_date_helper') }}</span>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label>{{ trans('cruds.employeeLeaf.fields.hr_approval') }}</label>
                 @foreach(App\Models\EmployeeLeaf::HR_APPROVAL_RADIO as $key => $label)
                     <div class="form-check {{ $errors->has('hr_approval') ? 'is-invalid' : '' }}">
@@ -57,7 +57,7 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.employeeLeaf.fields.hr_approval_helper') }}</span>
-            </div>
+            </div> --}}
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
@@ -67,6 +67,75 @@
     </div>
 </div>
 
+@endsection
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Get the form element
+    const form = document.querySelector('form');
+
+    // Add a submit event listener to the form
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Get the values of the start date and end date inputs
+      const startDate = new Date(document.getElementById('start_date').value);
+      const endDate = new Date(document.getElementById('end_date').value);
+
+      // Compare the dates
+      if (startDate >= endDate) {
+        Swal.fire({
+            icon: "info",
+            title: "Error!",
+            text: "Start date must be smaller than end date",
+            timer: 5000,
+            timerProgressBar: true,
+            showConfirmButton: false
+        });
+        return;
+      }else{
+        const startDate = $('#start_date').val();
+        const endDate = $('#end_date').val();
+        const empId = $('#employee_id').val();
+
+      $.ajax({
+        url: '{{ route("check.leaves") }}',
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+          start_date: startDate,
+          end_date: endDate,
+          empId: empId,
+        },
+        success: function(response) {
+            // alert(response);
+          if (response.success) {
+            // Proceed with form submission
+             // Submit the form if the validation passes
+             form.submit();
+          } else {
+            // Display error message
+             Swal.fire({
+            icon: "info",
+            title: "Error!",
+            text: "The number of days exceeds the available leaves.",
+            timer: 5000,
+            timerProgressBar: true,
+            showConfirmButton: false
+        });
+            $('#validation-result').html(response.message);
+          }
+        },
+        error: function() {
+          // Handle AJAX error
+          alert('An error occurred during the AJAX request.');
+        }
+      });
+      }
 
 
+    });
+  </script>
 @endsection

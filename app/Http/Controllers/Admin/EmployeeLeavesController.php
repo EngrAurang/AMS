@@ -12,6 +12,8 @@ use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
+use DateTime;
+use Carbon\Carbon;
 
 class EmployeeLeavesController extends Controller
 {
@@ -76,38 +78,41 @@ class EmployeeLeavesController extends Controller
         return redirect()->route('admin.employee-leaves.index');
     }
 
-    public function edit(EmployeeLeaf $employeeLeaf)
+    public function edit(EmployeeLeaf $employeeLeaf,$id)
     {
+
         abort_if(Gate::denies('employee_leave_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $employeeLeaf->load('employee');
-
-        return view('admin.employeeLeaves.edit', compact('employeeLeaf', 'employees'));
+        $employeedata = EmployeeLeaf::with('employee')->where('id',$id)->first();
+        // $employeeLeaf->load('employee');
+        // dd($employeedata);
+        return view('admin.employeeLeaves.edit', compact('employeedata', 'employees'));
     }
 
     public function update(UpdateEmployeeLeafRequest $request, EmployeeLeaf $employeeLeaf)
     {
-        $employeeLeaf->update($request->all());
 
+        // $employeeLeaf->update($request->all());
+        $updateemployeeleave = EmployeeLeaf::find($request->id);
+        $updateemployeeleave->update($request->all());
         return redirect()->route('admin.employee-leaves.index');
     }
 
-    public function show(EmployeeLeaf $employeeLeaf)
+    public function show(EmployeeLeaf $employeeLeaf,$id)
     {
         abort_if(Gate::denies('employee_leave_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $employeedata = EmployeeLeaf::with('employee')->where('id',$id)->first();
+        // $employeeLeaf->load('employee');
 
-        $employeeLeaf->load('employee');
-
-        return view('admin.employeeLeaves.show', compact('employeeLeaf'));
+        return view('admin.employeeLeaves.show', compact('employeedata'));
     }
 
-    public function destroy(EmployeeLeaf $employeeLeaf)
+    public function destroy(EmployeeLeaf $employeeLeaf,$id)
     {
         abort_if(Gate::denies('employee_leave_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $employeeLeaf->delete();
+        $deleteEmployeeLeave = EmployeeLeaf::find($id);
+        $deleteEmployeeLeave->delete();
 
         return back();
     }
@@ -121,5 +126,30 @@ class EmployeeLeavesController extends Controller
         }
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function checkLeaves(Request $request)
+    {
+        $empId = $request->input('empId');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $leaves = User::find($empId);
+        $totalLeave = $leaves->total_leaves;
+        $takenLeave = $leaves->leaves_taken;
+        $difference = $totalLeave - $takenLeave;
+
+        $startDateTime = DateTime::createFromFormat('d/m/Y', $startDate);
+        $endDateTime = DateTime::createFromFormat('d/m/Y', $endDate);
+        $interval = $startDateTime->diff($endDateTime);
+        $numberOfDays = $interval->days + 1;
+        // Check if the number of days is less than or equal to the total leaves
+        if ($numberOfDays <= $difference) {
+            $response = ['success' => true];
+        } else {
+            $response = ['success' => false, 'message' => 'The number of days exceeds the available leaves.'];
+        }
+
+        return response()->json($response);
     }
 }
