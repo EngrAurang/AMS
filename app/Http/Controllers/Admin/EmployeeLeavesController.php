@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 use DateTime;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeLeavesController extends Controller
 {
@@ -22,7 +22,18 @@ class EmployeeLeavesController extends Controller
         abort_if(Gate::denies('employee_leave_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = EmployeeLeaf::with(['employee'])->select(sprintf('%s.*', (new EmployeeLeaf)->table));
+            $loggedInUserRole = Auth::user()->roles->first();
+            $role = $loggedInUserRole->title;
+            if($role == "Admin"){
+                $query = EmployeeLeaf::with(['employee'])->select(sprintf('%s.*', (new EmployeeLeaf)->table));
+            }elseif($role == "Employee"){
+                $userId = Auth::id();
+
+                $query = EmployeeLeaf::with(['employee'])
+                    ->where('employee_id', $userId)
+                    ->select(sprintf('%s.*', (new EmployeeLeaf)->table));
+            }
+
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -34,7 +45,7 @@ class EmployeeLeavesController extends Controller
                 $deleteGate    = 'employee_leave_delete';
                 $crudRoutePart = 'employee-leaves';
 
-                return view('partials.datatablesActions', compact(
+                return view('partials.datatableActionEmpLeaves', compact(
                     'viewGate',
                     'editGate',
                     'deleteGate',
@@ -65,8 +76,14 @@ class EmployeeLeavesController extends Controller
     public function create()
     {
         abort_if(Gate::denies('employee_leave_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+            $loggedInUserRole = Auth::user()->roles->first();
+            $role = $loggedInUserRole->title;
+            if($role == "Admin"){
+                $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+            }elseif($role == "Employee"){
+                $userId = Auth::id();
+                $employees = User::where('id', $userId)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+            }
 
         return view('admin.employeeLeaves.create', compact('employees'));
     }
@@ -83,7 +100,15 @@ class EmployeeLeavesController extends Controller
 
         abort_if(Gate::denies('employee_leave_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $loggedInUserRole = Auth::user()->roles->first();
+            $role = $loggedInUserRole->title;
+            if($role == "Admin"){
+                $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+            }elseif($role == "Employee"){
+                $userId = Auth::id();
+                $employees = User::where('id', $userId)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+            }
+        // $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         $employeedata = EmployeeLeaf::with('employee')->where('id',$id)->first();
         // $employeeLeaf->load('employee');
         // dd($employeedata);

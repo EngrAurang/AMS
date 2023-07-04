@@ -21,9 +21,7 @@
                     <th width="10">
 
                     </th>
-                    <th>
-                        {{ trans('cruds.employeeLeaf.fields.id') }}
-                    </th>
+
                     <th>
                         {{ trans('cruds.employeeLeaf.fields.employee') }}
                     </th>
@@ -92,7 +90,6 @@
     ajax: "{{ route('admin.employee-leaves.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
 { data: 'employee_name', name: 'employee.name' },
 { data: 'start_date', name: 'start_date' },
 { data: 'end_date', name: 'end_date' },
