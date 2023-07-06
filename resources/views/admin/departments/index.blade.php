@@ -22,9 +22,7 @@
                         <th width="10">
 
                         </th>
-                        <th>
-                            {{ trans('cruds.department.fields.id') }}
-                        </th>
+                       
                         <th>
                             {{ trans('cruds.department.fields.name') }}
                         </th>
@@ -42,9 +40,7 @@
                             <td>
 
                             </td>
-                            <td>
-                                {{ $department->id ?? '' }}
-                            </td>
+                            
                             <td>
                                 {{ $department->name ?? '' }}
                             </td>
@@ -130,7 +126,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

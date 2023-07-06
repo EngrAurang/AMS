@@ -10,6 +10,7 @@
         <form method="POST" action="{{ route("admin.employee-leaves.update", [$employeedata->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
+            @if(auth()->user()->roles[0]->title=='Admin')
             <div class="form-group">
                 <label class="required" for="employee_id">{{ trans('cruds.employeeLeaf.fields.employee') }}</label>
                 <select class="form-control select2 {{ $errors->has('employee') ? 'is-invalid' : '' }}" name="employee_id" id="employee_id" required>
@@ -24,7 +25,21 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.employeeLeaf.fields.employee_helper') }}</span>
             </div>
+            @else
+            <input type="hidden" name="employee_id" id="employee_id" value="{{ auth()->user()->id }}" required>
+            @endif
             <input type="hidden" value="{{ $employeedata->id }}" name="id" >
+            <div class="form-group">
+                <label class="required" for="leave_type">{{ trans('cruds.employeeLeaf.fields.leave') }}</label>
+                <select class="form-control select2 {{ $errors->has('leave_type') ? 'is-invalid' : '' }}" name="leave_type" id="leave_type" required>
+                <option value="{{ $employeedata->leave_type }}">{{ $employeedata->leave_type }}</option>
+                <option value="first">F</option>
+                <option value="sec">S</option>
+                <option value="third">T</option>
+
+                </select>
+
+            </div>
             <div class="form-group">
                 <label class="required" for="start_date">{{ trans('cruds.employeeLeaf.fields.start_date') }}</label>
                 <input class="form-control date {{ $errors->has('start_date') ? 'is-invalid' : '' }}" type="text" name="start_date" id="start_date" value="{{ old('start_date', $employeedata->start_date) }}" required>
@@ -45,7 +60,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.employeeLeaf.fields.end_date_helper') }}</span>
             </div>
-            @if(auth()->user()->roles[0]->title=='Admin')
+            @if(auth()->user()->roles[0]->title=='Admin' || auth()->user()->roles[0]->title=='Line Manager')
             <div class="form-group">
                 <label>{{ trans('cruds.employeeLeaf.fields.line_manager_approval') }}</label>
                 @foreach(App\Models\EmployeeLeaf::LINE_MANAGER_APPROVAL_RADIO as $key => $label)
@@ -77,6 +92,17 @@
                 <span class="help-block">{{ trans('cruds.employeeLeaf.fields.hr_approval_helper') }}</span>
             </div>
             @endif
+            <div class="form-group">
+                <label for="leave_reason">{{ trans('cruds.employeeLeaf.fields.leave_reason') }}</label>
+
+                <textarea class="form-control  {{ $errors->has('leave_reason') ? 'is-invalid' : '' }}" name="leave_reason" id="leave_reason" value="{{ $employeedata->leave_reason }}">{{ $employeedata->leave_reason }}</textarea>
+                @if($errors->has('leave_reason'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('leave_reason') }}
+                    </div>
+                @endif
+
+            </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

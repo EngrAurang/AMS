@@ -108,6 +108,8 @@ return [
             'id'                           => 'ID',
             'id_helper'                    => ' ',
             'employee'                     => 'Employee',
+            'leave'                        => 'Type of Leave',
+            'leave_reason'                 => 'Reason',
             'employee_helper'              => ' ',
             'start_date'                   => 'Start Date',
             'start_date_helper'            => ' ',

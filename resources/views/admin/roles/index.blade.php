@@ -21,9 +21,9 @@
                     <th width="10">
 
                     </th>
-                    <th>
+                    {{-- <th>
                         {{ trans('cruds.role.fields.id') }}
-                    </th>
+                    </th> --}}
                     <th>
                         {{ trans('cruds.role.fields.title') }}
                     </th>
@@ -86,7 +86,6 @@
     ajax: "{{ route('admin.roles.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
 { data: 'title', name: 'title' },
 { data: 'permissions', name: 'permissions.title' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }

@@ -21,9 +21,9 @@
                     <th width="10">
 
                     </th>
-                    <th>
+                    {{-- <th>
                         {{ trans('cruds.permission.fields.id') }}
-                    </th>
+                    </th> --}}
                     <th>
                         {{ trans('cruds.permission.fields.title') }}
                     </th>
@@ -83,7 +83,6 @@
     ajax: "{{ route('admin.permissions.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
 { data: 'title', name: 'title' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],

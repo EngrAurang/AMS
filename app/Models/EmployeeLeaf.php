@@ -40,6 +40,8 @@ class EmployeeLeaf extends Model
         'end_date',
         'line_manager_approval',
         'hr_approval',
+        'leave_type',
+        'leave_reason',
         'created_at',
         'updated_at',
         'deleted_at',

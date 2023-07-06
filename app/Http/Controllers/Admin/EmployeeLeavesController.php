@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AdminNotificationEmail;
 
 class EmployeeLeavesController extends Controller
 {
@@ -32,6 +34,19 @@ class EmployeeLeavesController extends Controller
                 $query = EmployeeLeaf::with(['employee'])
                     ->where('employee_id', $userId)
                     ->select(sprintf('%s.*', (new EmployeeLeaf)->table));
+            }elseif($role == "Line Manager"){
+                $userId = Auth::id();
+
+                // $query = EmployeeLeaf::with(['employee'])
+                //     ->where('employee_id', $userId)
+                //     ->select(sprintf('%s.*', (new EmployeeLeaf)->table));
+                $query = EmployeeLeaf::with(['employee'])
+                    ->whereHas('employee', function ($query) use ($userId) {
+                        $query->where('user_id', $userId);
+                    })
+                    ->orWhere('employee_id', $userId)
+                    ->select(sprintf('%s.*', (new EmployeeLeaf)->table));
+
             }
 
             $table = Datatables::of($query);
@@ -76,14 +91,8 @@ class EmployeeLeavesController extends Controller
     public function create()
     {
         abort_if(Gate::denies('employee_leave_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-            $loggedInUserRole = Auth::user()->roles->first();
-            $role = $loggedInUserRole->title;
-            if($role == "Admin"){
-                $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-            }elseif($role == "Employee"){
-                $userId = Auth::id();
-                $employees = User::where('id', $userId)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-            }
+
+        $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.employeeLeaves.create', compact('employees'));
     }
@@ -91,6 +100,12 @@ class EmployeeLeavesController extends Controller
     public function store(StoreEmployeeLeafRequest $request)
     {
         $employeeLeaf = EmployeeLeaf::create($request->all());
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+        $name = 'zaib';
+
+        // Send an email to the admin
+        // Mail::to('engraurang2020@gmail.com')->send(new AdminNotificationEmail($name, $startDate, $endDate));
 
         return redirect()->route('admin.employee-leaves.index');
     }
@@ -100,14 +115,8 @@ class EmployeeLeavesController extends Controller
 
         abort_if(Gate::denies('employee_leave_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $loggedInUserRole = Auth::user()->roles->first();
-            $role = $loggedInUserRole->title;
-            if($role == "Admin"){
-                $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-            }elseif($role == "Employee"){
-                $userId = Auth::id();
-                $employees = User::where('id', $userId)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-            }
+        $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         // $employees = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         $employeedata = EmployeeLeaf::with('employee')->where('id',$id)->first();
         // $employeeLeaf->load('employee');
@@ -117,7 +126,24 @@ class EmployeeLeavesController extends Controller
 
     public function update(UpdateEmployeeLeafRequest $request, EmployeeLeaf $employeeLeaf)
     {
+        if($request->line_manager_approval == 'Approved' || $request->hr_approval == 'Approved'){
+            $startDate = $request->start_date;
+            $endDate = $request->end_date;
+            $employeeId = EmployeeLeaf::where('id',$request->id)->select('employee_id')->first();
+            $employee = User::find($employeeId->employee_id);
+            $takenLeaves = $employee->leaves_taken;
 
+            $startDateTime = DateTime::createFromFormat('d/m/Y', $startDate);
+            $endDateTime = DateTime::createFromFormat('d/m/Y', $endDate);
+            $interval = $startDateTime->diff($endDateTime);
+            $numberOfDays = $interval->days + 1;
+            $totalLeavesTaken = $takenLeaves + $numberOfDays;
+            // dd($totalLeavesTaken);
+            if ($employee) {
+                $employee->leaves_taken = $totalLeavesTaken;
+                $employee->save();
+            }
+        }
         // $employeeLeaf->update($request->all());
         $updateemployeeleave = EmployeeLeaf::find($request->id);
         $updateemployeeleave->update($request->all());

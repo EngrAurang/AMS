@@ -9,6 +9,7 @@
     <div class="card-body">
         <form method="POST" action="{{ route("admin.employee-leaves.store") }}" enctype="multipart/form-data">
             @csrf
+            @if(auth()->user()->roles[0]->title=='Admin')
             <div class="form-group">
                 <label class="required" for="employee_id">{{ trans('cruds.employeeLeaf.fields.employee') }}</label>
                 <select class="form-control select2 {{ $errors->has('employee') ? 'is-invalid' : '' }}" name="employee_id" id="employee_id" required>
@@ -19,6 +20,27 @@
                 @if($errors->has('employee'))
                     <div class="invalid-feedback">
                         {{ $errors->first('employee') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.employeeLeaf.fields.employee_helper') }}</span>
+            </div>
+            @else
+            <input type="hidden" name="employee_id" id="employee_id" value="{{ auth()->user()->id }}" required>
+            @endif
+            <div class="form-group">
+                <label class="required" for="leave_type">{{ trans('cruds.employeeLeaf.fields.leave') }}</label>
+                <select class="form-control select2 {{ $errors->has('leave_type') ? 'is-invalid' : '' }}" name="leave_type" id="leave_type" required>
+                <option value="">Please select</option>
+                <option value="Annual/ Vacation Leave 年假">Annual/ Vacation Leave 年假</option>
+                <option value="Sick Leave 病假">Sick Leave 病假</option>
+                <option value="Leave without pay 无薪假">Leave without pay 无薪假</option>
+                <option value="Off- in- lieu">Off- in- lieu</option>
+                <option value="Compassionate Leave">Compassionate Leave</option>
+                <option value="Parental Leave">Parental Leave</option>
+                </select>
+                @if($errors->has('leave_type'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('leave_type') }}
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.employeeLeaf.fields.employee_helper') }}</span>
@@ -58,6 +80,17 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.employeeLeaf.fields.hr_approval_helper') }}</span>
             </div> --}}
+            <div class="form-group">
+                <label for="leave_reason">{{ trans('cruds.employeeLeaf.fields.leave_reason') }}</label>
+
+                <textarea class="form-control  {{ $errors->has('leave_reason') ? 'is-invalid' : '' }}" name="leave_reason" id="leave_reason">{!! old('leave_reason') !!}</textarea>
+                @if($errors->has('leave_reason'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('leave_reason') }}
+                    </div>
+                @endif
+
+            </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

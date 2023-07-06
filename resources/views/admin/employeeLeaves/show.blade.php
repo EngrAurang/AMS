@@ -33,6 +33,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.employeeLeaf.fields.leave') }}
+                        </th>
+                        <td>
+                            {{ $employeedata->leave_type ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.employeeLeaf.fields.start_date') }}
                         </th>
                         <td>
@@ -61,6 +69,14 @@
                         </th>
                         <td>
                             {{ App\Models\EmployeeLeaf::HR_APPROVAL_RADIO[$employeedata->hr_approval] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.employeeLeaf.fields.leave_reason') }}
+                        </th>
+                        <td>
+                            {{ $employeedata->leave_reason ?? '' }}
                         </td>
                     </tr>
                 </tbody>

@@ -18,5 +18,7 @@ class PermissionRoleTableSeeder extends Seeder
         // Role::findOrFail(2)->permissions()->sync($user_permissions);
         $employee_permissions = Permission::whereIn( 'id', [ 22, 23,24,25,26,27] )->pluck( 'id' )->toArray();
         Role::findOrFail( 2 )->permissions()->sync( $employee_permissions );
+        $line_manager_permissions = Permission::whereIn( 'id', [ 22, 23,24,25,26,27] )->pluck( 'id' )->toArray();
+        Role::findOrFail( 3 )->permissions()->sync( $line_manager_permissions );
     }
 }

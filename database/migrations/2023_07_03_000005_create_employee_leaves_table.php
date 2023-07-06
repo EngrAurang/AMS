@@ -14,6 +14,8 @@ class CreateEmployeeLeavesTable extends Migration
             $table->date('end_date');
             $table->string('line_manager_approval')->nullable();
             $table->string('hr_approval')->default('Pending');
+            $table->string('leave_type')->nullable();
+            $table->string('leave_reason')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
