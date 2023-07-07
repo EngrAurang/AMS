@@ -173,6 +173,26 @@ class EmployeeLeavesController extends Controller
     public function destroy(EmployeeLeaf $employeeLeaf,$id)
     {
         abort_if(Gate::denies('employee_leave_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $employeeId = EmployeeLeaf::where('id',$id)->select('employee_id','start_date','end_date','hr_approval','line_manager_approval')->first();
+        if($employeeId->line_manager_approval == 'Approved' || $employeeId->hr_approval == 'Approved'){
+            $employee = User::find($employeeId->employee_id);
+            $takenLeaves = $employee->leaves_taken;
+
+            $startDate = $employeeId->start_date;
+            $endDate = $employeeId->end_date;
+            $startDateTime = DateTime::createFromFormat('d/m/Y', $startDate);
+            $endDateTime = DateTime::createFromFormat('d/m/Y', $endDate);
+            $interval = $startDateTime->diff($endDateTime);
+            $numberOfDays = $interval->days + 1;
+            $totalLeavesTaken = $takenLeaves - $numberOfDays;
+            // dd($totalLeavesTaken);
+            if ($employee) {
+                $employee->leaves_taken = $totalLeavesTaken;
+                $employee->save();
+            }
+        }
+
         $deleteEmployeeLeave = EmployeeLeaf::find($id);
         $deleteEmployeeLeave->delete();
 
