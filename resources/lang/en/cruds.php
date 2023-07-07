@@ -104,6 +104,7 @@ return [
     'employeeLeaf' => [
         'title'          => 'Employee Leaves',
         'title_singular' => 'Employee Leave',
+        'leave_title' => 'For Leave',
         'fields'         => [
             'id'                           => 'ID',
             'id_helper'                    => ' ',

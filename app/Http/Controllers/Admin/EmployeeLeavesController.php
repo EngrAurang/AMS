@@ -102,10 +102,21 @@ class EmployeeLeavesController extends Controller
         $employeeLeaf = EmployeeLeaf::create($request->all());
         $startDate = $request->start_date;
         $endDate = $request->end_date;
-        $name = 'zaib';
-
-        // Send an email to the admin
-        // Mail::to('engraurang2020@gmail.com')->send(new AdminNotificationEmail($name, $startDate, $endDate));
+        $startDateTime = DateTime::createFromFormat('d/m/Y', $startDate);
+        $endDateTime = DateTime::createFromFormat('d/m/Y', $endDate);
+        $interval = $startDateTime->diff($endDateTime);
+        $numberOfDays = $interval->days + 1;
+        $employeeName = User::find($request->employee_id);
+        $name = $employeeName->name;
+        $lineManagerId = $employeeName->user_id;
+        $lineManagerEmail = User::where('id',$lineManagerId)->select('email')->first();
+        if($employeeLeaf){
+             // Send an email to the admin
+            Mail::to('sajid@yopmail.com')->send(new AdminNotificationEmail($name, $startDate, $endDate,$numberOfDays));
+            if($lineManagerEmail){
+                 Mail::to($lineManagerEmail->email)->send(new AdminNotificationEmail($name, $startDate, $endDate,$numberOfDays));
+            }
+        }
 
         return redirect()->route('admin.employee-leaves.index');
     }

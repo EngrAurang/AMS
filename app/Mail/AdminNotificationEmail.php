@@ -15,21 +15,25 @@ class AdminNotificationEmail extends Mailable
     public $name;
     public $startDate;
     public $endDate;
+    public $numberOfDays;
     /**
      * Create a new message instance.
      */
-    public function __construct($name, $startDate, $endDate)
+    public function __construct($name, $startDate, $endDate,$numberOfDays)
     {
+
         $this->name = $name;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
+        $this->numberOfDays = $numberOfDays;
     }
 
-    public function build()
-    {
-        return $this->view('admin.emails.admin-notification')
-            ->subject('Leave Apply');
-    }
+    // public function build()
+    // {
+    //     // dd("no");
+    //     return $this->view('admin-notification')
+    //         ->subject('Leave Apply');
+    // }
 
     /**
      * Get the message envelope.
@@ -37,7 +41,7 @@ class AdminNotificationEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Admin Notification Email',
+            subject: 'Apply For Leave',
         );
     }
 
@@ -47,7 +51,7 @@ class AdminNotificationEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'admin-notification',
         );
     }
 

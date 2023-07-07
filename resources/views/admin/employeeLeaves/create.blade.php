@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.employeeLeaf.title_singular') }}
+        {{ trans('global.apply') }} {{ trans('cruds.employeeLeaf.leave_title') }}
     </div>
 
     <div class="card-body">

@@ -4,7 +4,7 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.employee-leaves.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.employeeLeaf.title_singular') }}
+                {{ trans('global.apply') }} {{ trans('cruds.employeeLeaf.leave_title') }}
             </a>
         </div>
     </div>
