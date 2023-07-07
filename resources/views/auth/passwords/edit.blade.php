@@ -71,7 +71,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    {{-- <div class="col-md-6">
         <div class="card">
             <div class="card-header">
                 {{ trans('global.delete_account') }}
@@ -88,7 +88,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
     @if(Route::has('profile.password.toggleTwoFactor'))
         <div class="col-md-6">
             <div class="card">

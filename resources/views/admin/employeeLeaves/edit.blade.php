@@ -33,9 +33,12 @@
                 <label class="required" for="leave_type">{{ trans('cruds.employeeLeaf.fields.leave') }}</label>
                 <select class="form-control select2 {{ $errors->has('leave_type') ? 'is-invalid' : '' }}" name="leave_type" id="leave_type" required>
                 <option value="{{ $employeedata->leave_type }}">{{ $employeedata->leave_type }}</option>
-                <option value="first">F</option>
-                <option value="sec">S</option>
-                <option value="third">T</option>
+                <option value="Annual Leave">Annual Leave</option>
+                <option value="Sick Leave">Sick Leave</option>
+                <option value="Leave without Pay">Leave Without Pay</option>
+                <option value="Off In Lieu">Off In Lieu</option>
+                <option value="Compassionate Leave">Compassionate Leave</option>
+                <option value="Parental Leave">Parental Leave</option>
 
                 </select>
 

@@ -32,7 +32,10 @@
                         {{ trans('cruds.employeeLeaf.fields.end_date') }}
                     </th>
                     <th>
-                        {{ trans('cruds.employeeLeaf.fields.hr_approval') }}
+                        {{ trans('cruds.employeeLeaf.fields.approval') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.employeeLeaf.fields.leave') }}
                     </th>
                     <th>
                         &nbsp;
@@ -94,6 +97,7 @@
 { data: 'start_date', name: 'start_date' },
 { data: 'end_date', name: 'end_date' },
 { data: 'hr_approval', name: 'hr_approval' },
+{ data: 'leave_type', name: 'leave_type' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

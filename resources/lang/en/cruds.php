@@ -119,6 +119,7 @@ return [
             'line_manager_approval'        => 'Line Manager Approval',
             'line_manager_approval_helper' => ' ',
             'hr_approval'                  => 'HR Approval',
+            'approval'                     => 'Approval',
             'hr_approval_helper'           => ' ',
             'created_at'                   => 'Created at',
             'created_at_helper'            => ' ',

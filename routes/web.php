@@ -11,7 +11,7 @@ Route::get('/home', function () {
 
 Auth::routes(['register' => false]);
 Route::post('/check-leaves', 'Admin\EmployeeLeavesController@checkLeaves')->name('check.leaves');
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', '2fa']], function () {
+Route::group(['prefix' => 'dashboard', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', '2fa']], function () {
     Route::get('/', 'HomeController@index')->name('home');
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
