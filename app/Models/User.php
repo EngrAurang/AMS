@@ -123,7 +123,7 @@ class User extends Authenticatable
 
     public function setJoiningDateAttribute($value)
     {
-        $this->attributes['date_of_birth'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+        $this->attributes['joining_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
     public function getDateOfBirthAttribute($value)
     {
