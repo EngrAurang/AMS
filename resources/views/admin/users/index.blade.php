@@ -28,13 +28,11 @@
                         {{ trans('cruds.user.fields.email') }}
                     </th>
                     <th>
-                        {{ trans('cruds.user.fields.department') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.user.fields.user') }}
                     </th>
-
-
+                    <th>
+                        {{ trans('cruds.user.fields.department') }}
+                    </th>
                     <th>
                         {{ trans('cruds.user.fields.total_leaves') }}
                     </th>
