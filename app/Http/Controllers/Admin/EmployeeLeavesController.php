@@ -16,6 +16,7 @@ use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AdminNotificationEmail;
+use App\Jobs\SendAdminNotificationEmail;
 
 class EmployeeLeavesController extends Controller
 {
@@ -110,11 +111,19 @@ class EmployeeLeavesController extends Controller
         $name = $employeeName->name;
         $lineManagerId = $employeeName->user_id;
         $lineManagerEmail = User::where('id',$lineManagerId)->select('email')->first();
-        if($employeeLeaf){
-             // Send an email to the admin
-            Mail::to('sajid@yopmail.com')->send(new AdminNotificationEmail($name, $startDate, $endDate,$numberOfDays));
-            if($lineManagerEmail){
-                 Mail::to($lineManagerEmail->email)->send(new AdminNotificationEmail($name, $startDate, $endDate,$numberOfDays));
+
+        if($lineManagerEmail){
+
+            $recipients = ['sajid@yopmail.com', $lineManagerEmail->email];
+
+            foreach ($recipients as $recipient) {
+                dispatch(new SendAdminNotificationEmail($name, $startDate, $endDate, $numberOfDays, $recipient));
+            }
+        }else{
+            $recipients = ['sajid@yopmail.com'];
+
+            foreach ($recipients as $recipient) {
+                dispatch(new SendAdminNotificationEmail($name, $startDate, $endDate, $numberOfDays, $recipient));
             }
         }
 
